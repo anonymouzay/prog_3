@@ -1,4 +1,5 @@
-class Runner extends livingCreature
+var livingCreature=require('./livingCreature.js');
+module.exports=class Runner extends livingCreature
 {
     constructor(x, y, index) {
         super(x,y,index);
