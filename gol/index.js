@@ -1,49 +1,21 @@
-const io = require('socket.io-client');
-const socket =io();
+
+const socket =io('http://localhost:3000');
 var side=20;
 var m = 20;
 var n = 20;
-var matrix;
+var matrix=[];
+var side = 30;
 
-var side = 10;
+function setup(data) {
+    setTimeout(()=>{matrix=data},1000)
 
-grassStatistics={
-    population:0
-}
-grasseaterStatistics={
-    population:0,
-    eatenGrass:0,
-    killedByPredator:0,
-    killedByRunner:0,
-    killedByHunger:0,
-    turnedIntoRunner:0
-}
-predatorStatisics={
-    population:0,
-    eatenGrasseaters:0,
-    killedByRunner:0,
-    killedByHunger:0
-}
-runnerStatistics={
-    population:0,
-    eatenGrasseaters:0,
-    eatenPredators:0,
-    runnersWhoUnderstoodTheTruth:0,
-}
-function setup() {
-    matrix = matrixGenerator(60);
+    console.log(matrix);
+  
     frameRate(32);
-    createCanvas(m * side, n * side);
+    if(matrix.length>2){
+    createCanvas(matrix[0].length * side, matrix.length * side);
     background('#acacac');
-    
-
-}
-function draw(){
-
-}
-function drawMatrix(matrix) {
-
-
+    }
     for (var y = 0; y < matrix.length; y++) {
         for (var x = 0; x < matrix[y].length; x++) {
 
@@ -74,16 +46,6 @@ function drawMatrix(matrix) {
 
         }
     }
-    socket.on('matrix',drawMatrix)
-    console.log(grassStatistics);
-    console.log(grasseaterStatistics);
-    console.log(predatorStatisics);
-    console.log(runnerStatistics);   
 
 }
-
-const retrievedData = () =>{
-    socket.emit('retrieveData',{grassStatistics,grasseaterStatistics,predatorStatisics,runnerStatistics})
-}
-
-setInterval(retrievedData,6000);
+    socket.on('matrix',setup)

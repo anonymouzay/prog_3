@@ -1,4 +1,5 @@
 var livingCreature=require('./livingCreature.js');
+var random = require('./random.js')
 module.exports=class Runner extends livingCreature
 {
     constructor(x, y, index) {

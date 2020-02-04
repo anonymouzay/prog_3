@@ -3,20 +3,48 @@ const app = express();
 const server = require('http').Server(app);
 const io = require('socket.io')(server);
 const fs = require('fs');
-
+const random = require('./gol/random')
+ 
 const Grass = require('./gol/grass.js');
 const Grasseater = require('./gol/grasseater.js');
 const Predator = require('./gol/predator.js');
 const Runner = require('./gol/runner.js');
 
-let matrix=matrixGenerator(20);
+
 
 grassArr = [];
 grasseaterArr = [];
 predatorArr = [];
-runnerArr = [];     
+runnerArr = []; 
+
+grassStatistics={
+    population:0
+}
+grasseaterStatistics={
+    population:0,
+    eatenGrass:0,
+    killedByPredator:0,
+    killedByRunner:0,
+    killedByHunger:0,
+    turnedIntoRunner:0
+}
+predatorStatisics={
+    population:0,
+    eatenGrasseaters:0,
+    killedByRunner:0,
+    killedByHunger:0
+}
+runnerStatistics={
+    population:0,
+    eatenGrasseaters:0,
+    eatenPredators:0,
+    runnersWhoUnderstoodTheTruth:0,
+} 
+
+matrix=[];
 
 function drawServer(){
+    matrix = matrixGenerator(20)
    if (grasseaterArr.length == grassArr.length / 2 || grasseaterArr.length>=grassArr.length ) {
       var newRun = random(grasseaterArr);
       var nx = newRun.x;
@@ -61,7 +89,7 @@ function matrixGenerator(l) {
        m[i] = [];
        for (var j = 0; j < l; j++) {
            // Stexcel random tiv
-           var rand = Math.floor(Math.random() * 100);
+           var rand = random(100);
            // Lcnel matrix tokosayin haraberutyamb
            if (rand <= 40) {
                // Xot
@@ -115,7 +143,8 @@ function matrixGenerator(l) {
    // Veradarcnel matrix
    return m;
 }
-setInterval(drawServer,10000)
+setInterval(drawServer,1000);
+
 
 app.use(express.static("."));
 app.get('/', function (req, res) {
@@ -124,7 +153,7 @@ app.get('/', function (req, res) {
 
 io.on('connection', function(socket){
    console.log('The game has started')
-   socket.emit('createMatrix',matrixGenerator(20));
+//    socket.emit('createMatrix',);
    socket.on('retrieveData',(props)=>{
       var file  = "stats.json";
       var myJSON = JSON.stringify(props);
