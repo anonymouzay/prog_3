@@ -72,12 +72,6 @@ function drawServer(){
   for (var i in predatorArr) {
       predatorArr[i].eat();
   }
-  // for (var i in XmenArr) {
-  //     XmenArr = XmenArr.filter(function () {
-  //         return true;
-  //       });
-  //     XmenArr[i].eat();
-  // }
   for (var i in runnerArr) {
       runnerArr[i].eat();
   }
@@ -145,6 +139,14 @@ function matrixGenerator(l) {
 }
 setInterval(drawServer,1000);
 
+const create_the_file=()=>{
+    var file  = "stats.json";
+    var myJSON = JSON.stringify({grassStatistics,grasseaterStatistics,predatorStatisics,runnerStatistics});
+    fs.appendFileSync(file, myJSON);
+    console.log("file has been created");
+}
+
+setInterval(create_the_file,6000)
 
 app.use(express.static("."));
 app.get('/', function (req, res) {
@@ -154,12 +156,6 @@ app.get('/', function (req, res) {
 io.on('connection', function(socket){
    console.log('The game has started')
 //    socket.emit('createMatrix',);
-   socket.on('retrieveData',(props)=>{
-      var file  = "stats.json";
-      var myJSON = JSON.stringify(props);
-      fs.appendFileSync(file, myJSON);
-   
-   });
    socket.on('disconnect', function () {
       console.log('The game has ended');
     });
