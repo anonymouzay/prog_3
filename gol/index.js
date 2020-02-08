@@ -9,7 +9,6 @@ var side = 30;
 function setup(data) {
     setTimeout(()=>{matrix=data},1000)
 
-    console.log(matrix);
   
     frameRate(32);
     if(matrix.length>2){

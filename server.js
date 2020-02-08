@@ -10,7 +10,7 @@ const Grasseater = require('./gol/grasseater.js');
 const Predator = require('./gol/predator.js');
 const Runner = require('./gol/runner.js');
 
-
+const createX = require('./createX')
 
 grassArr = [];
 grasseaterArr = [];
@@ -41,10 +41,11 @@ runnerStatistics={
     runnersWhoUnderstoodTheTruth:0,
 } 
 
-matrix=[];
+matrix = matrixGenerator(20)
+document.getElementById("myBtn").addEventListener("click", createX(matrix));
 
 function drawServer(){
-    matrix = matrixGenerator(20)
+    
    if (grasseaterArr.length == grassArr.length / 2 || grasseaterArr.length>=grassArr.length ) {
       var newRun = random(grasseaterArr);
       var nx = newRun.x;
