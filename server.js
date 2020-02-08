@@ -17,6 +17,10 @@ grasseaterArr = [];
 predatorArr = [];
 runnerArr = []; 
 
+var weatherCount=0;
+weatherArr=["summer","automn","winter","spring"];
+weather=weatherArr[weatherCount];
+
 grassStatistics={
     population:0
 }
@@ -28,6 +32,7 @@ grasseaterStatistics={
     killedByHunger:0,
     turnedIntoRunner:0
 }
+
 predatorStatisics={
     population:0,
     eatenGrasseaters:0,
@@ -41,8 +46,20 @@ runnerStatistics={
     runnersWhoUnderstoodTheTruth:0,
 } 
 
-matrix = matrixGenerator(20)
-document.getElementById("myBtn").addEventListener("click", createX(matrix));
+matrix = matrixGenerator(20);
+
+
+
+// weather controll
+const weatherCont = () =>{
+    weatherCount++;
+    if(weatherCount>=weatherArr.length){
+        weatherCount=0;
+    }
+    weather=weatherArr[weatherCount];
+}
+setInterval(weatherCont,2000);
+
 
 function drawServer(){
     
@@ -76,7 +93,9 @@ function drawServer(){
   for (var i in runnerArr) {
       runnerArr[i].eat();
   }
-  io.sockets.emit('matrix',matrix);
+  io.sockets.on('event',createX(matrix));
+  io.sockets.emit('matrix',{matrix,weather,createX});
+  
 }
 function matrixGenerator(l) {
    var m = [];
@@ -143,6 +162,7 @@ setInterval(drawServer,1000);
 const create_the_file=()=>{
     var file  = "stats.json";
     var myJSON = JSON.stringify({grassStatistics,grasseaterStatistics,predatorStatisics,runnerStatistics});
+    fs.truncate(file, 0, function(){console.log('done')})
     fs.appendFileSync(file, myJSON);
     console.log("file has been created");
 }
@@ -157,6 +177,7 @@ app.get('/', function (req, res) {
 io.on('connection', function(socket){
    console.log('The game has started')
 //    socket.emit('createMatrix',);
+  
    socket.on('disconnect', function () {
       console.log('The game has ended');
     });

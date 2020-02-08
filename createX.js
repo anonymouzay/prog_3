@@ -11,20 +11,20 @@ module.exports = (matrix)=>{
         }
         for(var i in grassArr){
             if(grassArr[i].x==X && grassArr[i].y==Y){
-            grassrArr.splice(i,1);
-                grassStatisics.population--;
+            grassArr.splice(i,1);
+                grassStatistics.population--;
             }  
         }
         for(var i in grasseaterArr){
-            if(grasseaterArr[i].x==X && grasseaterrArr[i].y==Y){
+            if(grasseaterArr[i].x==X && grasseaterArr[i].y==Y){
                 grasseaterArr.splice(i,1);
-                grasseaterStatisics.population--;
+                grasseaterStatistics.population--;
             }  
         }
         for(var i in runnerArr){
-            if(runnerrArr[i].x==X && runnerArr[i].y==Y){
-            runnerrArr.splice(i,1);
-                runnerStatisics.population--;
+            if(runnerArr[i].x==X && runnerArr[i].y==Y){
+            runnerArr.splice(i,1);
+                runnerStatistics.population--;
             }  
         }
         Y--;
@@ -40,20 +40,20 @@ module.exports = (matrix)=>{
         }
         for(var i in grassArr){
             if(grassArr[i].x==X && grassArr[i].y==Y){
-            grassrArr.splice(i,1);
-                grassStatisics.population--;
+            grassArr.splice(i,1);
+                grassStatistics.population--;
             }  
         }
         for(var i in grasseaterArr){
-            if(grasseaterArr[i].x==X && grasseaterrArr[i].y==Y){
+            if(grasseaterArr[i].x==X && grasseaterArr[i].y==Y){
                 grasseaterArr.splice(i,1);
-                grasseaterStatisics.population--;
+                grasseaterStatistics.population--;
             }  
         }
         for(var i in runnerArr){
-            if(runnerrArr[i].x==X && runnerArr[i].y==Y){
-            runnerrArr.splice(i,1);
-                runnerStatisics.population--;
+            if(runnerArr[i].x==X && runnerArr[i].y==Y){
+            runnerArr.splice(i,1);
+                runnerStatistics.population--;
             }  
         }
         X++;
