@@ -58,11 +58,10 @@ const weatherCont = () =>{
     }
     weather=weatherArr[weatherCount];
 }
-setInterval(weatherCont,2000);
+setInterval(weatherCont,900);
 
 
 function drawServer(){
-    
    if (grasseaterArr.length == grassArr.length / 2 || grasseaterArr.length>=grassArr.length ) {
       var newRun = random(grasseaterArr);
       var nx = newRun.x;
@@ -93,10 +92,12 @@ function drawServer(){
   for (var i in runnerArr) {
       runnerArr[i].eat();
   }
-  io.sockets.on('event',createX(matrix));
-  io.sockets.emit('matrix',{matrix,weather,createX});
-  
+
+  //   io.sockets.on('event',createX(matrix));
+  io.sockets.emit('matrix',{matrix:matrix,weather:weather});
+
 }
+
 function matrixGenerator(l) {
    var m = [];
    for (var i = 0; i < l; i++) {
@@ -160,10 +161,18 @@ function matrixGenerator(l) {
 setInterval(drawServer,1000);
 
 const create_the_file=()=>{
+    var data1 = fs.readFileSync('stats.json', 'utf-8');
+
     var file  = "stats.json";
     var myJSON = JSON.stringify({grassStatistics,grasseaterStatistics,predatorStatisics,runnerStatistics});
-    fs.truncate(file, 0, function(){console.log('done')})
     fs.appendFileSync(file, myJSON);
+    fs.writeFile(fs,myJSON,function(err) {
+        if(err) {
+            return console.log(err);
+        }
+        console.log("The file was saved!");
+    })
+   
     console.log("file has been created");
 }
 
@@ -177,13 +186,11 @@ app.get('/', function (req, res) {
 io.on('connection', function(socket){
    console.log('The game has started')
 //    socket.emit('createMatrix',);
-  
+    socket.on("X",(side)=>{console.log('X created'); matrix=createX(matrix); })
    socket.on('disconnect', function () {
       console.log('The game has ended');
     });
 });
-
-
 
 server.listen(3000);
  

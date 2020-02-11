@@ -9,8 +9,6 @@ function setup(data) {
     setTimeout(()=>{matrix=data.matrix},100)
     
     const elem = document.getElementById("myBtn")
-    elem.addEventListener("click",(e)=>{console.log('ghj')});;
-    // elem.on("click", );
   
     frameRate(32);
     if(matrix.length>2){
@@ -73,6 +71,11 @@ function setup(data) {
         }
         }
     }
+
+}
+function mousePressed(){
+    console.log("wsdfghj")
+    socket.emit('X',side);
 
 }
     socket.on('matrix',setup)
